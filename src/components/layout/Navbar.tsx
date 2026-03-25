@@ -1,0 +1,218 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { themeOptions } from "@/data/themes";
+import { useTheme } from "@/context/ThemeContext";
+import type { ThemeId } from "@/data/themes";
+import { useScrollProgress } from "@/hooks/useScrollProgress";
+import { NavDog } from "@/components/layout/NavDog";
+
+const navItems = [
+  { href: "#hero", label: "Home" },
+  { href: "#about", label: "About" },
+  { href: "#tech", label: "Skills" },
+  { href: "#projects", label: "Projects" },
+  { href: "#contact", label: "Contact" },
+] as const;
+
+const DOG_PAD_START = 7;
+const DOG_PAD_END = 93;
+
+export function Navbar() {
+  const scrollProgress = useScrollProgress();
+  const { theme, setTheme } = useTheme();
+  const [activeHref, setActiveHref] = useState("#hero");
+  const [themeOpen, setThemeOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  const themeBtnRef = useRef<HTMLButtonElement>(null);
+  const [themeDogLeft, setThemeDogLeft] = useState(88);
+
+  const scrollDogLeft =
+    DOG_PAD_START + scrollProgress * (DOG_PAD_END - DOG_PAD_START);
+
+  useEffect(() => {
+    const sections = [...navItems.map((n) => n.href), "#journey"];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = `#${entry.target.id}`;
+            if (sections.includes(id)) setActiveHref(id);
+          }
+        });
+      },
+      { rootMargin: "-40% 0px -50% 0px", threshold: 0 }
+    );
+
+    sections.forEach((href) => {
+      const el = document.querySelector(href);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!themeOpen) return;
+    const updateThemeDog = () => {
+      const nav = navRef.current;
+      const btn = themeBtnRef.current;
+      if (!nav || !btn) return;
+      const navRect = nav.getBoundingClientRect();
+      const btnRect = btn.getBoundingClientRect();
+      const center = btnRect.left + btnRect.width / 2 - navRect.left;
+      setThemeDogLeft((center / navRect.width) * 100);
+    };
+    updateThemeDog();
+    window.addEventListener("resize", updateThemeDog);
+    return () => window.removeEventListener("resize", updateThemeDog);
+  }, [themeOpen]);
+
+  const dogLeft = themeOpen ? themeDogLeft : scrollDogLeft;
+
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center px-4 pt-5">
+      <div className="relative w-full max-w-3xl">
+        <NavDog
+          leftPercent={dogLeft}
+          pose={themeOpen ? "theme" : "walk"}
+        />
+
+        <nav
+          ref={navRef}
+          className="relative overflow-hidden rounded-full border border-white/10 bg-black/40 px-2 py-2 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-xl md:px-4"
+        >
+          <div className="flex items-center justify-center gap-0.5 md:gap-1">
+            {navItems.map((item) => {
+              const isActive = activeHref === item.href && !themeOpen;
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => {
+                    setActiveHref(item.href);
+                    setThemeOpen(false);
+                    setMobileOpen(false);
+                  }}
+                  className={`relative rounded-full px-2.5 py-2 text-xs font-medium transition-colors md:px-4 md:text-sm ${
+                    isActive ? "text-white" : "text-slate-400 hover:text-slate-200"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-glow"
+                      className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,_rgba(251,113,133,0.45)_0%,_rgba(139,92,246,0.35)_50%,_transparent_75%)]"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                  <span className="relative z-10">{item.label}</span>
+                </a>
+              );
+            })}
+
+            <button
+              ref={themeBtnRef}
+              type="button"
+              onClick={() => setThemeOpen((v) => !v)}
+              className={`relative rounded-full px-2.5 py-2 text-xs font-medium transition-colors md:px-4 md:text-sm ${
+                themeOpen ? "text-white" : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              {themeOpen && (
+                <motion.span
+                  layoutId="nav-glow"
+                  className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,_rgba(251,113,133,0.45)_0%,_rgba(139,92,246,0.35)_50%,_transparent_75%)]"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10">Theme</span>
+            </button>
+
+            <button
+              type="button"
+              className="ml-1 flex h-9 w-9 flex-col items-center justify-center gap-1 rounded-full md:hidden"
+              onClick={() => setMobileOpen((v) => !v)}
+              aria-label="Menu"
+            >
+              <span className="h-0.5 w-4 bg-slate-300" />
+              <span className="h-0.5 w-4 bg-slate-300" />
+            </button>
+          </div>
+        </nav>
+
+        <AnimatePresence>
+          {themeOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -8, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.98 }}
+              transition={{ duration: 0.25 }}
+              className="mt-3 w-full overflow-hidden rounded-3xl border border-white/10 bg-black/50 p-4 shadow-2xl backdrop-blur-2xl md:p-5"
+            >
+              <div className="mb-3 flex flex-wrap items-center justify-center gap-3 border-b border-white/10 pb-3 md:gap-5">
+                {navItems.map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => {
+                      setThemeOpen(false);
+                      setActiveHref(item.href);
+                    }}
+                    className={`text-sm ${
+                      activeHref === item.href
+                        ? "font-medium text-white"
+                        : "text-slate-500 hover:text-slate-300"
+                    }`}
+                  >
+                    {item.label}
+                  </a>
+                ))}
+                <span className="text-sm font-medium text-white">Theme</span>
+              </div>
+
+              <div className="grid grid-cols-3 gap-x-4 gap-y-2 sm:grid-cols-5">
+                {themeOptions.map((name) => (
+                  <button
+                    key={name}
+                    type="button"
+                    onClick={() => setTheme(name as ThemeId)}
+                    className={`rounded-lg py-1.5 text-left text-sm transition ${
+                      theme === name
+                        ? "font-medium text-white"
+                        : "text-slate-500 hover:text-slate-300"
+                    }`}
+                  >
+                    {name}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {mobileOpen && !themeOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mt-2 overflow-hidden rounded-2xl border border-white/10 bg-black/50 backdrop-blur-xl md:hidden"
+            >
+              {navItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="block px-4 py-3 text-sm text-slate-300"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </header>
+  );
+}
