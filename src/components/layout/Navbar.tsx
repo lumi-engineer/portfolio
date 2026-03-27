@@ -16,8 +16,8 @@ const navItems = [
   { href: "#contact", label: "Contact" },
 ] as const;
 
-const DOG_PAD_START = 7;
-const DOG_PAD_END = 93;
+const DOG_PAD_START = 8;
+const DOG_PAD_END = 92;
 
 export function Navbar() {
   const scrollProgress = useScrollProgress();
@@ -72,18 +72,21 @@ export function Navbar() {
   const dogLeft = themeOpen ? themeDogLeft : scrollDogLeft;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center px-4 pt-5">
-      <div className="relative w-full max-w-3xl">
+    <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-12 md:pt-14">
+      <div className="relative w-fit max-w-[calc(100vw-2rem)]">
         <NavDog
           leftPercent={dogLeft}
           pose={themeOpen ? "theme" : "walk"}
         />
 
-        <nav
+        <motion.nav
           ref={navRef}
-          className="relative overflow-hidden rounded-full border border-white/10 bg-black/40 px-2 py-2 shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-xl md:px-4"
+          layout
+          className="relative w-fit overflow-hidden border border-white/10 bg-black/50 shadow-[0_8px_40px_rgba(0,0,0,0.5)] backdrop-blur-2xl"
+          style={{ borderRadius: themeOpen ? 28 : 9999 }}
+          transition={{ type: "spring", stiffness: 400, damping: 32 }}
         >
-          <div className="flex items-center justify-center gap-0.5 md:gap-1">
+          <div className="flex items-center justify-center gap-1 px-3 py-3 md:gap-1.5 md:px-5 md:py-3.5">
             {navItems.map((item) => {
               const isActive = activeHref === item.href && !themeOpen;
               return (
@@ -95,14 +98,14 @@ export function Navbar() {
                     setThemeOpen(false);
                     setMobileOpen(false);
                   }}
-                  className={`relative rounded-full px-2.5 py-2 text-xs font-medium transition-colors md:px-4 md:text-sm ${
+                  className={`relative whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition-colors md:px-4 ${
                     isActive ? "text-white" : "text-slate-400 hover:text-slate-200"
                   }`}
                 >
                   {isActive && (
                     <motion.span
                       layoutId="nav-glow"
-                      className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,_rgba(251,113,133,0.45)_0%,_rgba(139,92,246,0.35)_50%,_transparent_75%)]"
+                      className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,_rgba(251,113,133,0.5)_0%,_rgba(139,92,246,0.35)_55%,_transparent_75%)]"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -115,14 +118,14 @@ export function Navbar() {
               ref={themeBtnRef}
               type="button"
               onClick={() => setThemeOpen((v) => !v)}
-              className={`relative rounded-full px-2.5 py-2 text-xs font-medium transition-colors md:px-4 md:text-sm ${
+              className={`relative whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition-colors md:px-4 ${
                 themeOpen ? "text-white" : "text-slate-400 hover:text-slate-200"
               }`}
             >
               {themeOpen && (
                 <motion.span
                   layoutId="nav-glow"
-                  className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,_rgba(251,113,133,0.45)_0%,_rgba(139,92,246,0.35)_50%,_transparent_75%)]"
+                  className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,_rgba(251,113,133,0.5)_0%,_rgba(139,92,246,0.35)_55%,_transparent_75%)]"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
@@ -131,7 +134,7 @@ export function Navbar() {
 
             <button
               type="button"
-              className="ml-1 flex h-9 w-9 flex-col items-center justify-center gap-1 rounded-full md:hidden"
+              className="ml-0.5 flex h-10 w-10 shrink-0 flex-col items-center justify-center gap-1.5 rounded-full md:hidden"
               onClick={() => setMobileOpen((v) => !v)}
               aria-label="Menu"
             >
@@ -139,57 +142,38 @@ export function Navbar() {
               <span className="h-0.5 w-4 bg-slate-300" />
             </button>
           </div>
-        </nav>
 
-        <AnimatePresence>
-          {themeOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -8, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -8, scale: 0.98 }}
-              transition={{ duration: 0.25 }}
-              className="mt-3 w-full overflow-hidden rounded-3xl border border-white/10 bg-black/50 p-4 shadow-2xl backdrop-blur-2xl md:p-5"
-            >
-              <div className="mb-3 flex flex-wrap items-center justify-center gap-3 border-b border-white/10 pb-3 md:gap-5">
-                {navItems.map((item) => (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => {
-                      setThemeOpen(false);
-                      setActiveHref(item.href);
-                    }}
-                    className={`text-sm ${
-                      activeHref === item.href
-                        ? "font-medium text-white"
-                        : "text-slate-500 hover:text-slate-300"
-                    }`}
-                  >
-                    {item.label}
-                  </a>
-                ))}
-                <span className="text-sm font-medium text-white">Theme</span>
-              </div>
-
-              <div className="grid grid-cols-3 gap-x-4 gap-y-2 sm:grid-cols-5">
-                {themeOptions.map((name) => (
-                  <button
-                    key={name}
-                    type="button"
-                    onClick={() => setTheme(name as ThemeId)}
-                    className={`rounded-lg py-1.5 text-left text-sm transition ${
-                      theme === name
-                        ? "font-medium text-white"
-                        : "text-slate-500 hover:text-slate-300"
-                    }`}
-                  >
-                    {name}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+          <AnimatePresence initial={false}>
+            {themeOpen && (
+              <motion.div
+                key="theme-panel"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                className="overflow-hidden"
+              >
+                <div className="mx-4 border-t border-white/10 md:mx-5" />
+                <div className="grid grid-cols-3 gap-x-5 gap-y-2 px-5 pb-4 pt-3 sm:grid-cols-5 md:px-6 md:pb-5 md:pt-4">
+                  {themeOptions.map((name) => (
+                    <button
+                      key={name}
+                      type="button"
+                      onClick={() => setTheme(name as ThemeId)}
+                      className={`rounded-md py-1 text-left text-sm transition ${
+                        theme === name
+                          ? "font-medium text-white"
+                          : "text-slate-500 hover:text-slate-300"
+                      }`}
+                    >
+                      {name}
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.nav>
 
         <AnimatePresence>
           {mobileOpen && !themeOpen && (
@@ -197,7 +181,7 @@ export function Navbar() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="mt-2 overflow-hidden rounded-2xl border border-white/10 bg-black/50 backdrop-blur-xl md:hidden"
+              className="mt-2 w-full overflow-hidden rounded-2xl border border-white/10 bg-black/50 backdrop-blur-xl md:hidden"
             >
               {navItems.map((item) => (
                 <a

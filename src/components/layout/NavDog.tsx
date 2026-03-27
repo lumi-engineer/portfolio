@@ -13,7 +13,7 @@ export function NavDog({ leftPercent, pose = "walk" }: NavDogProps) {
 
   return (
     <motion.div
-      className="pointer-events-none absolute -top-10 z-20 md:-top-11"
+      className="pointer-events-none absolute -top-12 z-20 md:-top-14"
       style={{ left: `${leftPercent}%` }}
       animate={{ left: `${leftPercent}%` }}
       transition={{ type: "spring", stiffness: 320, damping: 28 }}
