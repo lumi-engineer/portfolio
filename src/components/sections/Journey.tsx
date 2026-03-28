@@ -50,10 +50,8 @@ export function Journey() {
   return (
     <section id="journey" ref={sectionRef} className="section-padding relative">
       <div className="mx-auto max-w-4xl">
-        <span className="font-mono text-xs uppercase tracking-[0.35em] text-sky-400">
-          My Journey
-        </span>
-        <h2 className="mt-4 text-3xl font-bold md:text-5xl">
+        <span className="section-label text-sky-400">My Journey</span>
+        <h2 className="section-title">
           Milestones that shaped me
         </h2>
 
@@ -85,9 +83,9 @@ export function Journey() {
                   className="glass rounded-xl p-5"
                   whileHover={{ scale: 1.02 }}
                 >
-                  <span className="font-mono text-sm text-sky-400">{item.year}</span>
-                  <h3 className="mt-1 text-xl font-semibold">{item.title}</h3>
-                  <p className="mt-2 text-sm text-slate-400">{item.description}</p>
+                  <span className="font-mono text-base text-sky-400">{item.year}</span>
+                  <h3 className="mt-1 text-2xl font-semibold">{item.title}</h3>
+                  <p className="mt-2 text-base text-slate-400">{item.description}</p>
                 </motion.div>
               </li>
             ))}

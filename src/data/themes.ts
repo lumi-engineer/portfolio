@@ -24,10 +24,10 @@ export const themeStyles: Record<
     accent: "#38bdf8",
   },
   light: {
-    bg: "#f8fafc",
+    bg: "#BAE6FD",
     fg: "#0f172a",
-    muted: "#64748b",
-    accent: "#0ea5e9",
+    muted: "#475569",
+    accent: "#0284c7",
   },
   Space: {
     bg: "#000000",
@@ -66,7 +66,7 @@ export const themeStyles: Record<
     accent: "#fbbf24",
   },
   Ocean: {
-    bg: "#041c38",
+    bg: "#042f4a",
     fg: "#e0f2fe",
     muted: "#7dd3fc",
     accent: "#38bdf8",

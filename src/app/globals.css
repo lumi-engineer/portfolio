@@ -31,6 +31,13 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 106.25%;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 112.5%;
+  }
 }
 
 body {
@@ -92,6 +99,14 @@ body {
 
 .section-padding {
   @apply px-4 sm:px-6 lg:px-8 py-24 md:py-32;
+}
+
+.section-label {
+  @apply font-mono text-sm uppercase tracking-[0.35em];
+}
+
+.section-title {
+  @apply mt-4 text-4xl font-bold md:text-5xl lg:text-6xl;
 }
 
 .hide-scrollbar {

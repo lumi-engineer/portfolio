@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import type { ThemeId } from "@/data/themes";
+import { LightSkyScene } from "@/components/effects/theme-scenes/LightSkyScene";
+import { OceanFishScene } from "@/components/effects/theme-scenes/OceanFishScene";
 
 type Particle = {
   x: number;
@@ -60,23 +62,23 @@ export function ThemeBackground() {
   const particlesRef = useRef<Particle[]>([]);
   const rafRef = useRef(0);
 
+  const canvasThemes: ThemeId[] = [
+    "Space",
+    "Snow",
+    "Rain",
+    "Leaf",
+    "Stellar",
+    "Dot Grid",
+    "Dark",
+  ];
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const animatedThemes: ThemeId[] = [
-      "Space",
-      "Snow",
-      "Rain",
-      "Leaf",
-      "Stellar",
-      "Dot Grid",
-      "Dark",
-    ];
-
-    if (!animatedThemes.includes(theme)) {
+    if (!canvasThemes.includes(theme)) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       return;
     }
@@ -115,8 +117,7 @@ export function ThemeBackground() {
           for (let y = 0; y < h; y += gap) {
             const pulse =
               0.5 +
-              0.5 *
-                Math.sin((x + y) * 0.02 + performance.now() * 0.001);
+              0.5 * Math.sin((x + y) * 0.02 + performance.now() * 0.001);
             ctx.globalAlpha = pulse * 0.35;
             ctx.beginPath();
             ctx.arc(x, y, 1.2, 0, Math.PI * 2);
@@ -199,9 +200,8 @@ export function ThemeBackground() {
           className="absolute inset-0"
           style={{ background: "var(--background)" }}
         >
-          {theme === "light" && (
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-white to-sky-100" />
-          )}
+          {theme === "light" && <LightSkyScene />}
+          {theme === "Ocean" && <OceanFishScene />}
           {theme === "Silk" && (
             <div className="absolute inset-0">
               <motion.div
@@ -214,28 +214,6 @@ export function ThemeBackground() {
                 animate={{ x: [0, -60, 0] }}
                 transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
               />
-            </div>
-          )}
-          {theme === "Ocean" && (
-            <div className="absolute inset-0 bg-gradient-to-b from-[#041c38] via-[#0c4a6e] to-[#082f49]">
-              <motion.div
-                className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-sky-400/20 to-transparent"
-                animate={{ opacity: [0.3, 0.6, 0.3] }}
-                transition={{ duration: 4, repeat: Infinity }}
-              />
-              {[...Array(4)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute bottom-0 h-24 w-full rounded-t-[100%] bg-sky-500/10"
-                  style={{ bottom: i * 12 }}
-                  animate={{ x: ["-5%", "5%", "-5%"] }}
-                  transition={{
-                    duration: 6 + i,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                />
-              ))}
             </div>
           )}
           {theme === "Snow" && (
@@ -253,7 +231,9 @@ export function ThemeBackground() {
         </motion.div>
       </AnimatePresence>
 
-      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+      {canvasThemes.includes(theme) && (
+        <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+      )}
     </div>
   );
 }

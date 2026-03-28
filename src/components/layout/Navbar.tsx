@@ -72,75 +72,86 @@ export function Navbar() {
   const dogLeft = themeOpen ? themeDogLeft : scrollDogLeft;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-12 md:pt-14">
+    <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-10 md:pt-12">
       <div className="relative w-fit max-w-[calc(100vw-2rem)]">
-        <NavDog
-          leftPercent={dogLeft}
-          pose={themeOpen ? "theme" : "walk"}
-        />
-
         <motion.nav
           ref={navRef}
           layout
-          className="relative w-fit overflow-hidden border border-white/10 bg-black/50 shadow-[0_8px_40px_rgba(0,0,0,0.5)] backdrop-blur-2xl"
+          className="relative w-fit overflow-visible border border-white/10 bg-black/50 shadow-[0_8px_40px_rgba(0,0,0,0.5)] backdrop-blur-2xl"
           style={{ borderRadius: themeOpen ? 28 : 9999 }}
           transition={{ type: "spring", stiffness: 400, damping: 32 }}
         >
-          <div className="flex items-center justify-center gap-1 px-3 py-3 md:gap-1.5 md:px-5 md:py-3.5">
-            {navItems.map((item) => {
-              const isActive = activeHref === item.href && !themeOpen;
-              return (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => {
-                    setActiveHref(item.href);
-                    setThemeOpen(false);
-                    setMobileOpen(false);
-                  }}
-                  className={`relative whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition-colors md:px-4 ${
-                    isActive ? "text-white" : "text-slate-400 hover:text-slate-200"
-                  }`}
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId="nav-glow"
-                      className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,_rgba(251,113,133,0.5)_0%,_rgba(139,92,246,0.35)_55%,_transparent_75%)]"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                  <span className="relative z-10">{item.label}</span>
-                </a>
-              );
-            })}
+          <NavDog
+            leftPercent={dogLeft}
+            pose={themeOpen ? "theme" : "walk"}
+          />
 
-            <button
-              ref={themeBtnRef}
-              type="button"
-              onClick={() => setThemeOpen((v) => !v)}
-              className={`relative whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition-colors md:px-4 ${
-                themeOpen ? "text-white" : "text-slate-400 hover:text-slate-200"
-              }`}
-            >
-              {themeOpen && (
-                <motion.span
-                  layoutId="nav-glow"
-                  className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,_rgba(251,113,133,0.5)_0%,_rgba(139,92,246,0.35)_55%,_transparent_75%)]"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
-              <span className="relative z-10">Theme</span>
-            </button>
+          <div className="relative z-10 px-3 pt-2 md:px-5 md:pt-2.5">
+            <div className="flex items-center justify-center gap-1 md:gap-1.5">
+              {navItems.map((item) => {
+                const isActive = activeHref === item.href && !themeOpen;
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => {
+                      setActiveHref(item.href);
+                      setThemeOpen(false);
+                      setMobileOpen(false);
+                    }}
+                    className={`relative whitespace-nowrap rounded-full px-3.5 py-2.5 text-base font-medium transition-colors md:px-4 md:py-2.5 ${
+                      isActive ? "text-white" : "text-slate-400 hover:text-slate-200"
+                    }`}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="nav-glow"
+                        className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,_rgba(251,113,133,0.5)_0%,_rgba(139,92,246,0.35)_55%,_transparent_75%)]"
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                    <span className="relative z-10">{item.label}</span>
+                  </a>
+                );
+              })}
 
-            <button
-              type="button"
-              className="ml-0.5 flex h-10 w-10 shrink-0 flex-col items-center justify-center gap-1.5 rounded-full md:hidden"
-              onClick={() => setMobileOpen((v) => !v)}
-              aria-label="Menu"
-            >
-              <span className="h-0.5 w-4 bg-slate-300" />
-              <span className="h-0.5 w-4 bg-slate-300" />
-            </button>
+              <button
+                ref={themeBtnRef}
+                type="button"
+                onClick={() => setThemeOpen((v) => !v)}
+                className={`relative whitespace-nowrap rounded-full px-3.5 py-2.5 text-base font-medium transition-colors md:px-4 md:py-2.5 ${
+                  themeOpen ? "text-white" : "text-slate-400 hover:text-slate-200"
+                }`}
+              >
+                {themeOpen && (
+                  <motion.span
+                    layoutId="nav-glow"
+                    className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,_rgba(251,113,133,0.5)_0%,_rgba(139,92,246,0.35)_55%,_transparent_75%)]"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">Theme</span>
+              </button>
+
+              <button
+                type="button"
+                className="ml-0.5 flex h-10 w-10 shrink-0 flex-col items-center justify-center gap-1.5 rounded-full md:hidden"
+                onClick={() => setMobileOpen((v) => !v)}
+                aria-label="Menu"
+              >
+                <span className="h-0.5 w-4 bg-slate-300" />
+                <span className="h-0.5 w-4 bg-slate-300" />
+              </button>
+            </div>
+
+            {/* Scroll progress inside navbar */}
+            <div className="mx-2 mt-1 h-1 overflow-hidden rounded-full bg-slate-700/60 md:mx-3">
+              <motion.div
+                className="h-full rounded-full bg-gradient-to-r from-sky-400 via-violet-400 to-emerald-400"
+                style={{ width: `${scrollProgress * 100}%` }}
+                transition={{ type: "spring", stiffness: 120, damping: 24 }}
+              />
+            </div>
           </div>
 
           <AnimatePresence initial={false}>
@@ -154,13 +165,13 @@ export function Navbar() {
                 className="overflow-hidden"
               >
                 <div className="mx-4 border-t border-white/10 md:mx-5" />
-                <div className="grid grid-cols-3 gap-x-5 gap-y-2 px-5 pb-4 pt-3 sm:grid-cols-5 md:px-6 md:pb-5 md:pt-4">
+                <div className="grid grid-cols-3 gap-x-5 gap-y-2.5 px-5 pb-4 pt-3 sm:grid-cols-5 md:px-6 md:pb-5 md:pt-4">
                   {themeOptions.map((name) => (
                     <button
                       key={name}
                       type="button"
                       onClick={() => setTheme(name as ThemeId)}
-                      className={`rounded-md py-1 text-left text-sm transition ${
+                      className={`rounded-md py-1.5 text-left text-base transition ${
                         theme === name
                           ? "font-medium text-white"
                           : "text-slate-500 hover:text-slate-300"
@@ -188,7 +199,7 @@ export function Navbar() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block px-4 py-3 text-sm text-slate-300"
+                  className="block px-4 py-3 text-base text-slate-300"
                 >
                   {item.label}
                 </a>

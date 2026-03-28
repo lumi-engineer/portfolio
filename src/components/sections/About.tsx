@@ -38,7 +38,7 @@ export function About() {
     >
       <div className="about-stagger mx-auto max-w-6xl">
         <motion.span
-          className="font-mono text-xs uppercase tracking-[0.35em] text-violet-400"
+          className="section-label text-violet-400"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -46,13 +46,13 @@ export function About() {
           About
         </motion.span>
 
-        <h2 className="mt-4 text-3xl font-bold md:text-5xl">
+        <h2 className="section-title">
           <span className="gradient-text">{about.punchline}</span>
         </h2>
 
         <div className="mt-10">
           <div className="glass rounded-2xl p-6 md:p-10">
-            <p className="min-h-[12rem] font-mono text-sm leading-relaxed text-slate-300 md:text-base">
+            <p className="min-h-[12rem] font-mono text-base leading-relaxed text-slate-300 md:text-lg">
               {displayed}
               {!done && (
                 <span className="ml-0.5 inline-block h-4 w-0.5 animate-pulse bg-sky-400 align-middle" />
@@ -66,7 +66,7 @@ export function About() {
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
             >
-              <span className="font-mono text-xs font-bold tracking-[0.25em] text-emerald-400">
+              <span className="font-mono text-sm font-bold tracking-[0.25em] text-emerald-400">
                 {about.brand}
               </span>
             </motion.div>

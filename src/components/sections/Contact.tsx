@@ -37,7 +37,7 @@ export function Contact() {
 
       <div className="relative mx-auto max-w-3xl text-center">
         <motion.span
-          className="font-mono text-xs uppercase tracking-[0.35em] text-pink-400"
+          className="section-label text-pink-400"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -45,10 +45,10 @@ export function Contact() {
           Contact
         </motion.span>
 
-        <h2 className="mt-4 text-3xl font-bold md:text-5xl">
+        <h2 className="section-title">
           <span className="gradient-text">{contact.headline}</span>
         </h2>
-        <p className="mt-4 text-slate-400">{contact.subtext}</p>
+        <p className="mt-4 text-lg text-slate-400">{contact.subtext}</p>
 
         <motion.a
           href={`mailto:${contact.email}`}
@@ -58,7 +58,7 @@ export function Contact() {
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
         >
-          <span className="relative z-10 block rounded-2xl border border-slate-600 bg-slate-900/60 px-10 py-6 font-mono text-lg text-sky-300 backdrop-blur transition group-hover:border-sky-500/50 group-hover:text-white md:text-xl">
+          <span className="relative z-10 block rounded-2xl border border-slate-600 bg-slate-900/60 px-10 py-6 font-mono text-xl text-sky-300 backdrop-blur transition group-hover:border-sky-500/50 group-hover:text-white md:text-2xl">
             {contact.email}
           </span>
           <motion.span
@@ -77,7 +77,7 @@ export function Contact() {
             <motion.a
               key={social}
               href="#"
-              className="glass rounded-full px-5 py-2 text-sm text-slate-400 transition hover:text-white"
+              className="glass rounded-full px-5 py-2.5 text-base text-slate-400 transition hover:text-white"
               whileHover={{ y: -4, color: "#38bdf8" }}
               transition={{ delay: i * 0.05 }}
             >
@@ -86,7 +86,7 @@ export function Contact() {
           ))}
         </motion.div>
 
-        <p className="mt-20 font-mono text-[10px] uppercase tracking-[0.4em] text-slate-600">
+        <p className="mt-20 font-mono text-xs uppercase tracking-[0.4em] text-slate-600">
           © {new Date().getFullYear()} · Engineered with Next.js & passion
         </p>
       </div>

@@ -32,10 +32,8 @@ export function Tech() {
   return (
     <section id="tech" className="section-padding relative overflow-hidden">
       <div className="mx-auto max-w-6xl">
-        <span className="font-mono text-xs uppercase tracking-[0.35em] text-violet-400">
-          Tech Stack
-        </span>
-        <h2 className="mt-4 text-3xl font-bold md:text-5xl">
+        <span className="section-label text-violet-400">Tech Stack</span>
+        <h2 className="section-title">
           Skills in orbit
         </h2>
 
@@ -50,7 +48,7 @@ export function Tech() {
                 animate={{ boxShadow: ["0 0 40px rgba(56,189,248,0.15)", "0 0 80px rgba(167,139,250,0.25)", "0 0 40px rgba(56,189,248,0.15)"] }}
                 transition={{ duration: 4, repeat: Infinity }}
               >
-                <span className="font-mono text-xs font-bold text-sky-300">CORE</span>
+                <span className="font-mono text-sm font-bold text-sky-300">CORE</span>
               </motion.div>
             </div>
 
@@ -77,7 +75,7 @@ export function Tech() {
                     return (
                       <span
                         key={skill}
-                        className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border px-2 py-1 text-[10px] font-medium md:text-xs"
+                        className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border px-2 py-1 text-xs font-medium md:text-sm"
                         style={{
                           left: `${x}%`,
                           top: `${y}%`,
@@ -114,10 +112,10 @@ export function Tech() {
                 }}
                 className="glass rounded-xl p-4"
               >
-                <h3 className="font-mono text-sm" style={{ color: g.color }}>
+                <h3 className="font-mono text-base" style={{ color: g.color }}>
                   {g.label}
                 </h3>
-                <p className="mt-2 text-sm text-slate-400">
+                <p className="mt-2 text-base text-slate-400">
                   {techStacks[g.key].join(" · ")}
                 </p>
               </motion.div>
