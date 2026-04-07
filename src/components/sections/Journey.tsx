@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { journey } from "@/data/portfolio";
+import { SectionLabel } from "@/components/ui/SectionLabel";
+import { SemanticHeading } from "@/components/ui/SemanticHeading";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -49,11 +51,13 @@ export function Journey() {
 
   return (
     <section id="journey" ref={sectionRef} className="section-padding relative">
-      <div className="mx-auto max-w-4xl">
-        <span className="section-label text-sky-400">My Journey</span>
-        <h2 className="section-title">
-          Milestones that shaped me
-        </h2>
+      <div className="section-container">
+        <SectionLabel variant="journey">My Journey</SectionLabel>
+        <SemanticHeading
+          as="h2"
+          text="The best way to predict the future is to invent it."
+          className="section-title font-quote text-[var(--muted)]"
+        />
 
         <div className="relative mt-16">
           <div

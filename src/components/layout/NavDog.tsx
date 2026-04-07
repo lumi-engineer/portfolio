@@ -5,25 +5,32 @@ import { motion } from "framer-motion";
 type NavDogProps = {
   leftPercent: number;
   pose?: "walk" | "theme";
+  placement?: "top" | "bottom";
 };
 
-/** Cute chibi anime dog — walks on top of the navbar surface. */
-export function NavDog({ leftPercent, pose = "walk" }: NavDogProps) {
+/** Cute chibi anime dog — walks along a progress track. */
+export function NavDog({
+  leftPercent,
+  pose = "walk",
+  placement = "bottom",
+}: NavDogProps) {
   const isTheme = pose === "theme";
 
   return (
     <motion.div
-      className="pointer-events-none absolute top-0 z-30"
+      className={`pointer-events-none absolute z-[60] -translate-x-1/2 ${
+        placement === "bottom" ? "bottom-full mb-1" : "top-0 -translate-y-[82%]"
+      }`}
       style={{ left: `${leftPercent}%` }}
       animate={{ left: `${leftPercent}%` }}
       transition={{ type: "spring", stiffness: 300, damping: 26 }}
     >
       <motion.div
-        className="relative -translate-x-1/2 -translate-y-[82%]"
+        className="relative"
         animate={
           isTheme
             ? { rotate: [0, -3, 3, 0], y: [0, -1, 0] }
-            : { y: [0, -1.5, 0] }
+            : { y: [0, -2, 0] }
         }
         transition={{
           duration: isTheme ? 1.4 : 0.45,
@@ -55,12 +62,10 @@ export function NavDog({ leftPercent, pose = "walk" }: NavDogProps) {
           height={isTheme ? 44 : 40}
           viewBox="0 0 48 44"
           fill="none"
-          aria-hidden
-          className="drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)]"
+          className="drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]"
         >
           {isTheme ? (
             <g>
-              {/* Sitting — paws up, anime sparkle eyes */}
               <ellipse cx="24" cy="32" rx="12" ry="9" fill="#FDBA74" />
               <ellipse cx="24" cy="32" rx="10" ry="7" fill="#FED7AA" />
               <circle cx="24" cy="16" r="12" fill="#FED7AA" />
@@ -80,7 +85,6 @@ export function NavDog({ leftPercent, pose = "walk" }: NavDogProps) {
             </g>
           ) : (
             <g>
-              {/* Walking — chibi shiba */}
               <motion.g
                 animate={{ rotate: [0, 2, 0, -2, 0] }}
                 transition={{ duration: 0.45, repeat: Infinity }}
@@ -115,14 +119,6 @@ export function NavDog({ leftPercent, pose = "walk" }: NavDogProps) {
               >
                 <ellipse cx="32" cy="36" rx="3" ry="2" fill="#FB923C" />
               </motion.g>
-              <motion.path
-                d="M8 38 L12 42 M40 38 L36 42"
-                stroke="#EA580C"
-                strokeWidth="2"
-                strokeLinecap="round"
-                animate={{ opacity: [1, 0.4, 1] }}
-                transition={{ duration: 0.22, repeat: Infinity }}
-              />
             </g>
           )}
         </svg>

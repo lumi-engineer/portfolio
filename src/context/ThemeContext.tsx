@@ -36,6 +36,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     document.documentElement.style.setProperty("--foreground", vars.fg);
     document.documentElement.style.setProperty("--muted", vars.muted);
     document.documentElement.style.setProperty("--accent", vars.accent);
+    document.documentElement.style.setProperty("--nav-bg", vars.navBg);
+    document.documentElement.style.setProperty("--nav-fg", vars.navFg);
+    document.documentElement.style.setProperty("--nav-muted", vars.navMuted);
+    document.documentElement.style.setProperty("--nav-border", vars.navBorder);
+    document.documentElement.style.setProperty("--progress-track", vars.progressTrack);
     document.documentElement.dataset.theme = theme;
     localStorage.setItem(STORAGE_KEY, theme);
   }, [theme]);

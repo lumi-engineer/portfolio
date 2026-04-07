@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import type { ThemeId } from "@/data/themes";
 import { LightSkyScene } from "@/components/effects/theme-scenes/LightSkyScene";
+import { RainScene } from "@/components/effects/theme-scenes/RainScene";
 import { OceanFishScene } from "@/components/effects/theme-scenes/OceanFishScene";
 
 type Particle = {
@@ -65,7 +66,6 @@ export function ThemeBackground() {
   const canvasThemes: ThemeId[] = [
     "Space",
     "Snow",
-    "Rain",
     "Leaf",
     "Stellar",
     "Dot Grid",
@@ -200,7 +200,7 @@ export function ThemeBackground() {
           className="absolute inset-0"
           style={{ background: "var(--background)" }}
         >
-          {theme === "light" && <LightSkyScene />}
+          {theme === "Light" && <LightSkyScene />}
           {theme === "Ocean" && <OceanFishScene />}
           {theme === "Silk" && (
             <div className="absolute inset-0">
@@ -219,9 +219,7 @@ export function ThemeBackground() {
           {theme === "Snow" && (
             <div className="absolute inset-0 bg-gradient-to-b from-slate-900 to-slate-800" />
           )}
-          {theme === "Rain" && (
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-950 to-slate-900" />
-          )}
+          {theme === "Rain" && <RainScene />}
           {theme === "Leaf" && (
             <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 to-green-900" />
           )}
