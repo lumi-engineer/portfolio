@@ -114,7 +114,6 @@ const iconMap: Record<string, IconType> = {
   GitHub: SiGithub,
   Stripe: SiStripe,
   Netlify: SiNetlify,
-  TypeScript: SiTypescript,
   "Tailwind CSS": SiTailwindcss,
   WebSockets: TbBroadcast,
   "Shopify Headless": FaShopify,
